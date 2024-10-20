@@ -20,6 +20,9 @@ https://github.com/ammarhemani/COSC4353-Group-Project
 | Zainulabdeen Aldawah    | Volunteer History, Volunteer Matching | Assisted in creating the volunteer history module, as well as the volunteer matching |
 | Salim Sanogho           | Event Management, Unit tests | Assisted in the events management module, as well as writing the unit tests |
 
+### Code coverage
+
+![Code coverage](code-coverage.png)
 
 ### High-Level Design / Architecture
 
