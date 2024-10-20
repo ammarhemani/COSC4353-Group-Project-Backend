@@ -1,9 +1,10 @@
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import admin = require("firebase-admin");
 
-export const matchVolunteers = functions.https.onCall(async (request: functions.https.CallableRequest<any>) => {
-  const data = request.data;
+// Initialize Firebase Admin SDK
+admin.initializeApp();
 
+// Function to match volunteers based on required skills
+export const matchVolunteers = async (data: { eventId: string }) => {
   try {
     // Fetch event details to match volunteers
     const eventSnapshot = await admin.firestore().collection("events").doc(data.eventId).get();
@@ -22,11 +23,10 @@ export const matchVolunteers = functions.https.onCall(async (request: functions.
       return {matchedVolunteers}; // Return the matched volunteers
     }
   } catch (error) {
-    if (error instanceof Error) {
-      throw new functions.https.HttpsError("internal", error.message);
-    }
+    console.error(`Error matching volunteers for eventId ${data.eventId}:`, error);
+    throw new Error(error instanceof Error ? error.message : "An unexpected error occurred.");
   }
 
   // Fallback return if no volunteers were matched or if something goes wrong
   return {matchedVolunteers: []}; // Return an empty array as fallback
-});
+};

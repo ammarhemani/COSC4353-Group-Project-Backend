@@ -1,8 +1,10 @@
-import * as functions from "firebase-functions/v1";
-import * as admin from "firebase-admin";
+import admin = require("firebase-admin");
 
-// Handle new user registration
-export const onUserCreate = functions.auth.user().onCreate(async (user) => {
+// Initialize Firebase Admin SDK
+admin.initializeApp();
+
+// Function to create user profile in Firestore
+export const createUserProfile = async (user: { uid: string; email: string; displayName?: string }) => {
   const {uid, email, displayName} = user;
 
   try {
@@ -11,7 +13,6 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
       uid,
       email,
       displayName,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
       skills: [],
       preferences: {},
       availabilityDates: [],
@@ -21,4 +22,4 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   } catch (error) {
     console.error(`Error creating user profile for ${uid}:`, error);
   }
-});
+};
